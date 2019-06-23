@@ -58,7 +58,7 @@ EOF
     git init
     git remote add origin "$repo"
     git fetch origin
-    git reset --mixed "$SOURCE_VERSION"
+    git reset --mixed "$HEROKU_TEST_RUN_COMMIT_VERSION"
     git lfs install
     git lfs pull
     rm -rf .git
