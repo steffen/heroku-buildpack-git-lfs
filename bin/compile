@@ -23,6 +23,13 @@ else
     die "Env var HEROKU_BUILDPACK_GIT_LFS_REPO is not set"
 fi
 
+if [[ -f "$env_dir/HEROKU_TEST_RUN_COMMIT_VERSION" ]]; then
+    commit_version="$(< "$env_dir/HEROKU_TEST_RUN_COMMIT_VERSION")"
+    echo "Commit version: $commit_version"
+else
+    die "Env var HEROKU_TEST_RUN_COMMIT_VERSION is not set"
+fi
+
 if [[ -f "$env_dir/HEROKU_BUILDPACK_GIT_LFS_BRANCH" ]]; then
     branch="$(< "$env_dir/HEROKU_BUILDPACK_GIT_LFS_BRANCH")"
 else
@@ -58,7 +65,7 @@ EOF
     git init
     git remote add origin "$repo"
     git fetch origin
-    git reset --mixed "$HEROKU_TEST_RUN_COMMIT_VERSION"
+    git reset --mixed "$commit_version"
     git lfs install
     git lfs pull
     rm -rf .git
